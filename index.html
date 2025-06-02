@@ -2,221 +2,245 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>✨ Лабиринт Порталов ✨</title>
+  <title>Лабиринт Порталов</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
       overflow: hidden;
-      font-family: 'Trebuchet MS', sans-serif;
-      background: black;
-      color: #e0e0ff;
+      height: 100%;
     }
 
     body {
+      font-family: 'Trebuchet MS', sans-serif;
       background-image: url('https://i.postimg.cc/XqNWJwbd/9YkjNIZ.png');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      position: relative;
+      color: #e0e0ff;
     }
 
     header {
       text-align: center;
       padding: 30px;
       font-size: 2em;
-      background: rgba(0, 0, 0, 0.6);
-      box-shadow: 0 0 15px #8c5bdc;
-      color: #ffccff;
-      z-index: 2;
+      background: rgba(40, 10, 70, 0.7);
+      box-shadow: 0 0 20px #a070ff;
       position: relative;
+      z-index: 2;
+      color: #ffdfff;
+      text-shadow: 0 0 10px #ffbbff;
+    }
+
+    #portals-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      gap: 60px;
+      z-index: 3;
     }
 
     .portal {
-      position: absolute;
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
       text-align: center;
-      font-size: 0.8em;
       font-weight: bold;
-      color: #fff;
-      box-shadow: 0 0 20px #fff;
-      animation: pulse 2s infinite ease-in-out;
-      cursor: pointer;
-      z-index: 3;
+      color: white;
+      text-decoration: none;
+      font-size: 0.9em;
+      position: relative;
       transition: transform 0.3s ease;
-      padding: 10px;
+      cursor: pointer;
+      animation: pulse 3s infinite ease-in-out;
+      overflow: hidden;
     }
 
     .portal:hover {
       transform: scale(1.1);
     }
 
-    .portal1 {
-      top: 40%;
-      left: 25%;
-      background: radial-gradient(circle, #ffe0f0, #ff5e99); /* свет */
-    }
-
-    .portal2 {
-      top: 40%;
+    .portal::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 120%;
       left: 50%;
-      background: radial-gradient(circle, #b8d4ff, #3a00a0); /* электричество */
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.8em;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
     }
 
-    .portal3 {
-      top: 40%;
-      left: 75%;
-      background: radial-gradient(circle, #d2f5a3, #5b3a00); /* земля */
+    .portal:hover::after {
+      opacity: 1;
     }
 
     @keyframes pulse {
       0%, 100% {
         transform: scale(1);
-        box-shadow: 0 0 15px #fff, 0 0 30px #ccc;
+        box-shadow: 0 0 15px rgba(255,255,255,0.3);
       }
       50% {
-        transform: scale(1.15);
-        box-shadow: 0 0 25px #fff, 0 0 50px #eee;
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(255,255,255,0.6);
       }
     }
 
-    .fog {
+    .portal::before {
+      content: '';
       position: absolute;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.03), transparent);
-      animation: fogMove 20s infinite ease-in-out;
-      z-index: 1;
+      width: 120%;
+      height: 120%;
+      border-radius: 50%;
+      background: inherit;
+      filter: blur(3px);
+      animation: swirl 5s infinite linear;
+      z-index: -1;
     }
 
-    @keyframes fogMove {
-      0% { transform: translate(0, 0); }
-      50% { transform: translate(30px, -20px); }
-      100% { transform: translate(0, 0); }
+    @keyframes swirl {
+      0% {
+        transform: rotate(0deg) scale(1.05);
+      }
+      100% {
+        transform: rotate(360deg) scale(1.05);
+      }
     }
 
-    .stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
+    /* Стихии */
+    .light {
+      background: radial-gradient(circle at center, #fffce6, #b00040 70%, #400020);
+      box-shadow: 0 0 20px #ff99bb, 0 0 40px #ff3377;
     }
 
+    .electric {
+      background: radial-gradient(circle at center, #ccffff, #003366 70%, #000022);
+      box-shadow: 0 0 20px #66ffff, 0 0 40px #00ccff;
+    }
+
+    .earth {
+      background: radial-gradient(circle at center, #e4ffcc, #4a3f28 70%, #1a130a);
+      box-shadow: 0 0 20px #aaff88, 0 0 35px #5f5f2a;
+    }
+
+    /* Снежинки */
     .star {
       position: absolute;
       width: 2px;
       height: 2px;
       background: white;
       border-radius: 50%;
-      opacity: 0.7;
-      animation: fall linear infinite;
+      opacity: 0.6;
+      animation: snowfall linear infinite;
     }
 
-    @keyframes fall {
-      0% { transform: translateY(-10px); }
-      100% { transform: translateY(110vh); }
+    @keyframes snowfall {
+      0% {
+        transform: translateY(-10px);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
     }
 
-    .popup {
+    /* Кнопка запуска */
+    #start-button {
       position: absolute;
-      top: 65%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0,0,0,0.85);
-      color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      display: none;
-      z-index: 10;
-      font-size: 1em;
-      text-align: center;
-    }
-
-    .start-button {
-      position: absolute;
-      bottom: 30px;
+      top: 75%;
       left: 50%;
       transform: translateX(-50%);
-      padding: 12px 25px;
-      font-size: 1em;
-      font-weight: bold;
-      background: rgba(0, 0, 0, 0.6);
-      color: #fff;
-      border: 2px solid #fff;
-      border-radius: 8px;
+      padding: 15px 25px;
+      font-size: 1.2em;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff0f5;
+      border: 2px solid #ff66cc;
+      border-radius: 12px;
       cursor: pointer;
-      z-index: 5;
+      z-index: 10;
+      box-shadow: 0 0 12px #ff99cc;
+      transition: all 0.3s ease;
     }
 
-    .start-button:hover {
-      background: rgba(255, 255, 255, 0.1);
+    #start-button:hover {
+      background: #ff66cc;
+      color: black;
     }
   </style>
 </head>
 <body>
 
-<!-- 🎶 Медитативная музыка -->
-<audio id="bgMusic" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2023/03/02/audio_91dbde5820.mp3" type="audio/mpeg">
-</audio>
+  <header>✨ Лабиринт Порталов ✨</header>
 
-<!-- 🔊 Звук клика -->
-<audio id="clickSound">
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6557256737.mp3" type="audio/mpeg">
-</audio>
+  <div id="portals-container">
+    <a href="#" class="portal light" data-tooltip="Тайный алтарь света и чувственности">Храм<br>Алой Жрицы</a>
+    <a href="#" class="portal electric" data-tooltip="Кибер-глаз в инфосферу">Всевидящее<br>Око</a>
+    <a href="#" class="portal earth" data-tooltip="Убежище бывших птеродактилей">Лагерь<br>Птеродактилей</a>
+  </div>
 
-<header>✨ Лабиринт Порталов ✨</header>
+  <button id="start-button">🔮 Войти в Лабиринт</button>
 
-<div class="fog"></div>
+  <!-- Аудио -->
+  <audio id="bg-music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="hover-sound">
+    <source src="https://www.soundjay.com/button/sounds/button-16.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="click-sound">
+    <source src="https://www.soundjay.com/button/sounds/button-09.mp3" type="audio/mpeg">
+  </audio>
 
-<!-- 🌌 Порталы -->
-<div class="portal portal1" onclick="activatePortal('Храм Алой Жрицы')">Храм<br>Алой Жрицы</div>
-<div class="portal portal2" onclick="activatePortal('Всевидящее Око')">Всевидящее<br>Око</div>
-<div class="portal portal3" onclick="activatePortal('Лагерь Птеродактилей')">Лагерь<br>Птеродактилей</div>
+  <script>
+    // Снежинки
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+      star.style.left = Math.random() * window.innerWidth + "px";
+      star.style.animationDuration = (10 + Math.random() * 20) + "s";
+      star.style.animationDelay = Math.random() * 10 + "s";
+      document.body.appendChild(star);
+    }
 
-<div class="stars" id="stars"></div>
-<div class="popup" id="popup">Активировать портал</div>
+    const bgMusic = document.getElementById("bg-music");
+    const hoverSound = document.getElementById("hover-sound");
+    const clickSound = document.getElementById("click-sound");
+    const startButton = document.getElementById("start-button");
 
-<!-- 🔮 Кнопка входа -->
-<button class="start-button" onclick="startMusic()">🔮 Войти в Лабиринт</button>
+    startButton.addEventListener("click", () => {
+      bgMusic.volume = 0.3;
+      bgMusic.play();
+      startButton.style.display = "none";
+    });
 
-<script>
-  // Создание падающих звёзд
-  for (let i = 0; i < 100; i++) {
-    let star = document.createElement('div');
-    star.className = 'star';
-    star.style.left = Math.random() * 100 + 'vw';
-    star.style.animationDuration = (5 + Math.random() * 10) + 's';
-    star.style.opacity = Math.random();
-    document.getElementById('stars').appendChild(star);
-  }
+    document.querySelectorAll('.portal').forEach(portal => {
+      portal.addEventListener("mouseenter", () => {
+        hoverSound.volume = 0.3;
+        hoverSound.currentTime = 0;
+        hoverSound.play();
+      });
 
-  // Открытие портала
-  function activatePortal(name) {
-    const popup = document.getElementById('popup');
-    popup.innerText = `Портал "${name}" открыт. Активировать портал?`;
-    popup.style.display = 'block';
-    setTimeout(() => {
-      popup.style.display = 'none';
-    }, 3000);
-    document.getElementById('clickSound').play();
-  }
-
-  // Запуск музыки
-  function startMusic() {
-    const music = document.getElementById('bgMusic');
-    music.play();
-  }
-</script>
+      portal.addEventListener("click", () => {
+        clickSound.volume = 0.5;
+        clickSound.currentTime = 0;
+        clickSound.play();
+      });
+    });
+  </script>
 
 </body>
 </html>
