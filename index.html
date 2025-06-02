@@ -164,12 +164,12 @@
 </head>
 <body>
 
-<!-- 🎶 Музыка -->
+<!-- 🎶 Медитативная музыка -->
 <audio id="bgMusic" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/10/28/audio_7cbd4a7399.mp3" type="audio/mpeg">
+  <source src="https://cdn.pixabay.com/download/audio/2023/03/02/audio_91dbde5820.mp3" type="audio/mpeg">
 </audio>
 
-<!-- 🔊 Клик -->
+<!-- 🔊 Звук клика -->
 <audio id="clickSound">
   <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6557256737.mp3" type="audio/mpeg">
 </audio>
@@ -178,7 +178,7 @@
 
 <div class="fog"></div>
 
-<!-- 🌀 Порталы -->
+<!-- 🌌 Порталы -->
 <div class="portal portal1" onclick="activatePortal('Храм Алой Жрицы')">Храм<br>Алой Жрицы</div>
 <div class="portal portal2" onclick="activatePortal('Всевидящее Око')">Всевидящее<br>Око</div>
 <div class="portal portal3" onclick="activatePortal('Лагерь Птеродактилей')">Лагерь<br>Птеродактилей</div>
@@ -186,10 +186,11 @@
 <div class="stars" id="stars"></div>
 <div class="popup" id="popup">Активировать портал</div>
 
-<!-- 🧿 Кнопка входа -->
+<!-- 🔮 Кнопка входа -->
 <button class="start-button" onclick="startMusic()">🔮 Войти в Лабиринт</button>
 
 <script>
+  // Создание падающих звёзд
   for (let i = 0; i < 100; i++) {
     let star = document.createElement('div');
     star.className = 'star';
@@ -199,6 +200,7 @@
     document.getElementById('stars').appendChild(star);
   }
 
+  // Открытие портала
   function activatePortal(name) {
     const popup = document.getElementById('popup');
     popup.innerText = `Портал "${name}" открыт. Активировать портал?`;
@@ -209,6 +211,7 @@
     document.getElementById('clickSound').play();
   }
 
+  // Запуск музыки
   function startMusic() {
     const music = document.getElementById('bgMusic');
     music.play();
