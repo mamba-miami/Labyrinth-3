@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Храм Алой Жрицы</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Trebuchet MS', sans-serif;
+      color: #fff0f5;
+      background: black;
+    }
+
+    body {
+      background-image: url('https://i.postimg.cc/kGhQG3ZC/54-DB0085-9201-4-E39-93-B4-3-EDB9-D02-C5-C7.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+
+    /* Жрица */
+    .priestess {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 220px;
+      height: 220px;
+      background: rgba(255, 0, 100, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: float 4s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+      50% { transform: translate(-50%, -50%) translateY(-15px); }
+    }
+
+    /* Сферы */
+    .sphere {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, rgba(255, 100, 150, 0.6), rgba(100, 0, 30, 0.9));
+      box-shadow: 0 0 20px #ff77aa, 0 0 40px #ff0055;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 0.8em;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      animation: pulse 3s infinite;
+      z-index: 3;
+    }
+
+    .sphere:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 15px #ff99bb; }
+      50% { box-shadow: 0 0 30px #ff0055; }
+    }
+
+    .sphere:nth-child(2) { top: 20%; left: 50%; transform: translateX(-50%); }
+    .sphere:nth-child(3) { top: 50%; left: 80%; transform: translateY(-50%); }
+    .sphere:nth-child(4) { top: 80%; left: 50%; transform: translateX(-50%); }
+    .sphere:nth-child(5) { top: 50%; left: 20%; transform: translateY(-50%); }
+
+    /* Свитки */
+    .scroll {
+      display: none;
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      padding: 30px;
+      background: rgba(20, 10, 20, 0.95);
+      border: 2px solid #ff99bb;
+      border-radius: 15px;
+      box-shadow: 0 0 25px #ff66cc;
+      font-size: 1em;
+      line-height: 1.5em;
+      z-index: 10;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.2em;
+      color: #ffccdd;
+      cursor: pointer;
+    }
+
+    /* Туман */
+    .fog {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05), transparent);
+      animation: fogMove 12s infinite ease-in-out;
+      z-index: 1;
+    }
+
+    @keyframes fogMove {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(20px, -10px); }
+      100% { transform: translate(0, 0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Медитативная музыка -->
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/14/audio_77b9c9a7e4.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="fog"></div>
+  <div class="priestess"></div>
+
+  <!-- Сферы -->
+  <div class="sphere" onclick="showScroll('scroll1')">Хранители<br>портала</div>
+  <div class="sphere" onclick="showScroll('scroll2')">Стихии<br>портала</div>
+  <div class="sphere" onclick="showScroll('scroll3')">Активация<br>портала</div>
+  <div class="sphere" onclick="showScroll('scroll4')">Техника<br>безопасности</div>
+
+  <!-- Свитки -->
+  <div class="scroll" id="scroll1">
+    <div class="close-btn" onclick="closeScroll('scroll1')">✖</div>
+    <h2>Хранители портала</h2>
+    <p>Кто они такие, как почувствовать их присутствие, как вступить с ними в союз...</p>
+  </div>
+
+  <div class="scroll" id="scroll2">
+    <div class="close-btn" onclick="closeScroll('scroll2')">✖</div>
+    <h2>Стихии портала</h2>
+    <p>Свет, кровь, дыхание... Здесь активны силы, пробуждающие архетипы твоей души.</p>
+  </div>
+
+  <div class="scroll" id="scroll3">
+    <div class="close-btn" onclick="closeScroll('scroll3')">✖</div>
+    <h2>Активация портала</h2>
+    <p>Техника дыхания, настройка и вход в храм: как приблизиться к центру безмолвия.</p>
+  </div>
+
+  <div class="scroll" id="scroll4">
+    <div class="close-btn" onclick="closeScroll('scroll4')">✖</div>
+    <h2>Техника безопасности</h2>
+    <p>Как не выгореть, как возвращаться, как вести себя внутри портала и за его пределами.</p>
+  </div>
+
+  <script>
+    function showScroll(id) {
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function closeScroll(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
